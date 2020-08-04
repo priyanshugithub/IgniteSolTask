@@ -1,34 +1,48 @@
 import React from "react";
-import axios from "axios";
+import queryString from "query-string";
+import { Route, withRouter } from "react-router-dom";
+import HomePage from "./Pages/Homepage/homepage";
+//import BookList from "./components/book-list/book-list.component";
+import { URL, Genres } from "./components/constants";
 import './App.css';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: [],
-      isLoaded: false,
-    }
-  }
+  state = {
+    genres: Genres,
+    booksLoadingStarted: false
+  };
 
-  async componentDidMount() {
-    let bookItems = await axios.get("http://skunkworks.ignitesol.com:8000/books")
-    console.log(bookItems.data);
-    this.setState({isLoaded : true,
-                  items: bookItems.data.results})
-  }
+  setGenreHandler = genre => {
+    const {
+      history,
+      location: { search: searchString }
+    } = this.props;
+
+    const searchObj = {
+      ...queryString.parse(searchString),
+      topic: genre,
+      mime_type: "image/jpeg"
+    };
+
+    const query = queryString.stringify(searchObj);
+
+    history.push(`/books?${query}`);
+  };
+
+  
 
   render() {
-    const { items } = this.state;
-      return (
-        <div>
-          <ul>
-            {console.log('hi',items)}
-      {items.map( (item, i) => <li key={i}>{item.authors.map((item2, j) => <li key={j}>{item2.name}</li>)}</li>)
-         }
-         </ul>
-      </div>
-      )
+    const { genres } = this.state;
+    const homePage = () => (
+      <HomePage genres={genres} setGenre={this.setGenreHandler} />
+    );
+
+    return (
+      <React.Fragment>
+        <Route exact path="/" component={homePage} />
+        
+      </React.Fragment>
+    );
     }
 }
 
