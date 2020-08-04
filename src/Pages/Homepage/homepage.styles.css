@@ -1,0 +1,19 @@
+.home-page {
+    width: 100vw;
+    height: 100vh;
+    padding-left: 50px;
+    }
+  
+  .home-page-title { 
+    color: #5E56E7;
+    font-family: 'Montserat';
+    font-size: 48px;
+    font-weight: bold;
+  }
+
+  .home-page-sub-title {
+      font-family: 'Montserat';
+      color: black;
+      font-size: 30px;
+      font-weight: bold;
+  }
