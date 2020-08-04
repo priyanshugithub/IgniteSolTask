@@ -2,7 +2,7 @@ import React from "react";
 import queryString from "query-string";
 import { Route, withRouter } from "react-router-dom";
 import HomePage from "./Pages/Homepage/homepage";
-//import BookList from "./components/book-list/book-list.component";
+import BookList from "./components/book-list/book-list.component";
 import { URL, Genres } from "./components/constants";
 import './App.css';
 
@@ -33,6 +33,7 @@ class App extends React.Component {
 
   render() {
     const { genres } = this.state;
+    const bookList = () => <BookList url={URL} />;
     const homePage = () => (
       <HomePage genres={genres} setGenre={this.setGenreHandler} />
     );
@@ -40,10 +41,10 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <Route exact path="/" component={homePage} />
-        
+        <Route path="/books" component={bookList} />
       </React.Fragment>
     );
     }
 }
 
-export default App;
+export default withRouter(App);
